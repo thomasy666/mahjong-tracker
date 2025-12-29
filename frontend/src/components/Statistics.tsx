@@ -1,7 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
 import { gameApi } from '../api/client'
 
 export function Statistics() {
+  const { t } = useTranslation()
   const { data: stats, isLoading } = useQuery({
     queryKey: ['statistics'],
     queryFn: gameApi.statistics,
@@ -12,17 +14,17 @@ export function Statistics() {
 
   return (
     <div className="bg-white rounded-lg shadow p-4">
-      <h2 className="text-xl font-bold mb-4">Statistics</h2>
+      <h2 className="text-xl font-bold mb-4">{t('statistics')}</h2>
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b text-left">
-              <th className="p-2">Player</th>
-              <th className="p-2">Rounds</th>
-              <th className="p-2">Win%</th>
-              <th className="p-2">Avg</th>
-              <th className="p-2">Best</th>
-              <th className="p-2">Worst</th>
+              <th className="p-2">{t('players')}</th>
+              <th className="p-2">{t('rounds')}</th>
+              <th className="p-2">{t('winRate')}</th>
+              <th className="p-2">{t('avg')}</th>
+              <th className="p-2">{t('best')}</th>
+              <th className="p-2">{t('worst')}</th>
             </tr>
           </thead>
           <tbody>

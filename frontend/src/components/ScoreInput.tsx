@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
 import { playersApi, roundsApi } from '../api/client'
 
 export function ScoreInput() {
+  const { t } = useTranslation()
   const queryClient = useQueryClient()
   const { data: players } = useQuery({ queryKey: ['players'], queryFn: playersApi.list })
   const [scores, setScores] = useState<Record<number, number>>({})
@@ -40,7 +42,7 @@ export function ScoreInput() {
 
   return (
     <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow p-4">
-      <h2 className="text-xl font-bold mb-4">Record Round</h2>
+      <h2 className="text-xl font-bold mb-4">{t('recordRound')}</h2>
       <div className="space-y-3">
         {players?.map((p) => (
           <div key={p.id} className="flex items-center gap-3">
@@ -57,18 +59,18 @@ export function ScoreInput() {
       </div>
       <div className="mt-4 flex items-center justify-between">
         <span className={`font-bold ${total === 0 ? 'text-green-600' : 'text-red-600'}`}>
-          Sum: {total}
+          {t('sum')}: {total}
         </span>
         <div className="flex gap-2">
           <button type="button" onClick={autoBalance} className="px-4 py-2 bg-gray-200 rounded">
-            Balance
+            {t('balance')}
           </button>
           <button
             type="submit"
             disabled={total !== 0 || mutation.isPending}
             className="px-4 py-2 bg-blue-600 text-white rounded disabled:opacity-50"
           >
-            Submit
+            {t('submit')}
           </button>
         </div>
       </div>

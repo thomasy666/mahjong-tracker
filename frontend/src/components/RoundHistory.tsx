@@ -1,7 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
 import { roundsApi } from '../api/client'
 
 export function RoundHistory() {
+  const { t } = useTranslation()
   const { data: rounds, isLoading } = useQuery({
     queryKey: ['rounds'],
     queryFn: roundsApi.list,
@@ -11,7 +13,7 @@ export function RoundHistory() {
 
   return (
     <div className="bg-white rounded-lg shadow p-4">
-      <h2 className="text-xl font-bold mb-4">Round History</h2>
+      <h2 className="text-xl font-bold mb-4">{t('roundHistory')}</h2>
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>

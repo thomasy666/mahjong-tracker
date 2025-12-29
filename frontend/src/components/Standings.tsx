@@ -1,7 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
 import { gameApi } from '../api/client'
 
 export function Standings() {
+  const { t } = useTranslation()
   const { data: players, isLoading } = useQuery({
     queryKey: ['standings'],
     queryFn: gameApi.standings,
@@ -12,7 +14,7 @@ export function Standings() {
 
   return (
     <div className="bg-white rounded-lg shadow p-4">
-      <h2 className="text-xl font-bold mb-4">Standings</h2>
+      <h2 className="text-xl font-bold mb-4">{t('standings')}</h2>
       <div className="space-y-2">
         {players?.map((player, i) => (
           <div

@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 
 const FACE_TARGETS: Record<number, { x: number; y: number }> = {
   1: { x: 0, y: 0 },
@@ -108,6 +109,7 @@ function MahjongTable({ activeWall, breakPoint }: { activeWall: number | null; b
 }
 
 export function DiceRoller() {
+  const { t } = useTranslation()
   const [dice, setDice] = useState([1, 1])
   const [rot1, setRot1] = useState({ x: 0, y: 0 })
   const [rot2, setRot2] = useState({ x: 0, y: 0 })
@@ -159,7 +161,7 @@ export function DiceRoller() {
 
   return (
     <div className="bg-white rounded-lg shadow p-4">
-      <h2 className="text-xl font-bold mb-4 text-center">🎲 Dice Roller</h2>
+      <h2 className="text-xl font-bold mb-4 text-center">🎲 {t('diceRoller')}</h2>
       <div className="flex justify-center items-center gap-4 mb-4">
         <Cube rotX={rot1.x} rotY={rot1.y} />
         <Cube rotX={rot2.x} rotY={rot2.y} />
@@ -179,7 +181,7 @@ export function DiceRoller() {
           disabled={rolling}
           className="px-6 py-3 bg-cyan-500 text-white rounded-full text-lg font-bold disabled:opacity-50 hover:bg-cyan-600 transition"
         >
-          🎲 Roll Dice
+          🎲 {t('roll')}
         </button>
       </div>
     </div>

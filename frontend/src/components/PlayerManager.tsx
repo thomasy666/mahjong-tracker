@@ -1,8 +1,10 @@
 import { useState, useRef } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
 import { playersApi } from '../api/client'
 
 export function PlayerManager() {
+  const { t } = useTranslation()
   const queryClient = useQueryClient()
   const { data: players } = useQuery({ queryKey: ['players'], queryFn: playersApi.list })
   const [newName, setNewName] = useState('')
@@ -40,7 +42,7 @@ export function PlayerManager() {
 
   return (
     <div className="bg-white rounded-lg shadow p-4">
-      <h2 className="text-xl font-bold mb-4">Players</h2>
+      <h2 className="text-xl font-bold mb-4">{t('players')}</h2>
       <div className="space-y-2 mb-4">
         {players?.map((p) => (
           <div key={p.id} className="flex items-center gap-2">
@@ -84,7 +86,7 @@ export function PlayerManager() {
           type="text"
           value={newName}
           onChange={e => setNewName(e.target.value)}
-          placeholder="New player name"
+          placeholder={t('newPlayer')}
           className="flex-1 border rounded px-3 py-2"
         />
         <input
@@ -98,7 +100,7 @@ export function PlayerManager() {
           disabled={!newName.trim()}
           className="px-4 py-2 bg-green-600 text-white rounded disabled:opacity-50"
         >
-          Add
+          {t('add')}
         </button>
       </div>
     </div>
