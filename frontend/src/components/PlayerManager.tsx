@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { playersApi } from '../api/client'
 
@@ -7,23 +7,36 @@ export function PlayerManager() {
   const { data: players } = useQuery({ queryKey: ['players'], queryFn: playersApi.list })
   const [newName, setNewName] = useState('')
   const [newColor, setNewColor] = useState('#808080')
+  const fileInputRefs = useRef<Record<number, HTMLInputElement | null>>({})
+
+  const invalidate = () => {
+    queryClient.invalidateQueries({ queryKey: ['players'] })
+    queryClient.invalidateQueries({ queryKey: ['standings'] })
+  }
 
   const addMutation = useMutation({
     mutationFn: () => playersApi.create(newName, newColor),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['players'] })
-      queryClient.invalidateQueries({ queryKey: ['standings'] })
-      setNewName('')
-    },
+    onSuccess: () => { invalidate(); setNewName('') },
   })
 
   const deleteMutation = useMutation({
     mutationFn: (id: number) => playersApi.delete(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['players'] })
-      queryClient.invalidateQueries({ queryKey: ['standings'] })
-    },
+    onSuccess: invalidate,
   })
+
+  const avatarMutation = useMutation({
+    mutationFn: ({ id, file }: { id: number; file: File }) => playersApi.uploadAvatar(id, file),
+    onSuccess: invalidate,
+  })
+
+  const handleAvatarClick = (id: number) => {
+    fileInputRefs.current[id]?.click()
+  }
+
+  const handleFileChange = (id: number, e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) avatarMutation.mutate({ id, file })
+  }
 
   return (
     <div className="bg-white rounded-lg shadow p-4">
@@ -31,7 +44,31 @@ export function PlayerManager() {
       <div className="space-y-2 mb-4">
         {players?.map((p) => (
           <div key={p.id} className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded" style={{ backgroundColor: p.color }} />
+            <input
+              type="file"
+              accept="image/*"
+              className="hidden"
+              ref={el => fileInputRefs.current[p.id] = el}
+              onChange={e => handleFileChange(p.id, e)}
+            />
+            {p.avatar_path ? (
+              <img
+                src={`/static/avatars/${p.avatar_path}`}
+                alt={p.name}
+                className="w-8 h-8 rounded-full object-cover cursor-pointer hover:ring-2 ring-blue-400"
+                onClick={() => handleAvatarClick(p.id)}
+                title="Click to change avatar"
+              />
+            ) : (
+              <div
+                className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold cursor-pointer hover:ring-2 ring-blue-400"
+                style={{ backgroundColor: p.color }}
+                onClick={() => handleAvatarClick(p.id)}
+                title="Click to add avatar"
+              >
+                {p.name[0]}
+              </div>
+            )}
             <span className="flex-1">{p.name}</span>
             <button
               onClick={() => deleteMutation.mutate(p.id)}

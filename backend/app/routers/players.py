@@ -1,8 +1,13 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, File
 from sqlalchemy.orm import Session
 from sqlalchemy import func
 from .. import models, schemas
 from ..database import get_db
+import os
+import uuid
+
+AVATARS_DIR = os.path.join(os.path.dirname(__file__), "..", "..", "..", "static", "avatars")
+os.makedirs(AVATARS_DIR, exist_ok=True)
 
 router = APIRouter(prefix="/api/players", tags=["players"])
 
@@ -59,3 +64,21 @@ def delete_player(player_id: int, db: Session = Depends(get_db)):
     db.delete(player)
     db.commit()
     return {"ok": True}
+
+@router.post("/{player_id}/avatar")
+async def upload_avatar(player_id: int, file: UploadFile = File(...), db: Session = Depends(get_db)):
+    player = db.query(models.Player).filter(models.Player.id == player_id).first()
+    if not player:
+        raise HTTPException(404, "Player not found")
+
+    ext = os.path.splitext(file.filename)[1] if file.filename else ".jpg"
+    filename = f"{uuid.uuid4()}{ext}"
+    filepath = os.path.join(AVATARS_DIR, filename)
+
+    with open(filepath, "wb") as f:
+        content = await file.read()
+        f.write(content)
+
+    player.avatar_path = filename
+    db.commit()
+    return {"ok": True, "avatar_path": filename}
