@@ -10,8 +10,6 @@ const FACE_TARGETS: Record<number, { x: number; y: number }> = {
   6: { x: 90, y: 0 },
 }
 
-const DIRECTIONS = ['Self', 'Right', 'Across', 'Left']
-
 function Pip({ row, col, red, big }: { row: number; col: number; red?: boolean; big?: boolean }) {
   return (
     <div
@@ -74,11 +72,11 @@ function Cube({ rotX, rotY }: { rotX: number; rotY: number }) {
   )
 }
 
-function MahjongTable({ activeWall, breakPoint }: { activeWall: number | null; breakPoint: number }) {
+function MahjongTable({ activeWall, breakPoint, directions, tableLabel }: { activeWall: number | null; breakPoint: number; directions: string[]; tableLabel: string }) {
   return (
     <svg width="200" height="200" viewBox="0 0 200 200" className="rounded-full" style={{ background: 'rgba(0,0,0,0.2)', boxShadow: 'inset 0 0 20px rgba(0,0,0,0.5)' }}>
-      <text x="100" y="105" textAnchor="middle" fill="#aaa" fontSize="12" opacity="0.5" fontWeight="bold">Table</text>
-      {DIRECTIONS.map((dir, i) => {
+      <text x="100" y="105" textAnchor="middle" fill="#aaa" fontSize="12" opacity="0.5" fontWeight="bold">{tableLabel}</text>
+      {directions.map((dir, i) => {
         const transforms = [
           'translate(100, 170)',
           'translate(170, 100) rotate(90)',
@@ -118,6 +116,8 @@ export function DiceRoller() {
   const [breakPoint, setBreakPoint] = useState(1)
   const state1 = useRef({ x: 0, y: 0 })
   const state2 = useRef({ x: 0, y: 0 })
+
+  const directions = [t('dirSelf'), t('dirRight'), t('dirAcross'), t('dirLeft')]
 
   const getNextRot = (current: number, target: number) => {
     const minSpin = 720
@@ -169,11 +169,11 @@ export function DiceRoller() {
       </div>
       {activeWall !== null && (
         <p className="text-center text-lg mb-2 text-cyan-600 font-semibold">
-          Break from: {DIRECTIONS[activeWall]} ({breakPoint})
+          {t('breakFrom')}: {directions[activeWall]} ({breakPoint})
         </p>
       )}
       <div className="flex justify-center mb-4">
-        <MahjongTable activeWall={activeWall} breakPoint={breakPoint} />
+        <MahjongTable activeWall={activeWall} breakPoint={breakPoint} directions={directions} tableLabel={t('table')} />
       </div>
       <div className="text-center">
         <button
