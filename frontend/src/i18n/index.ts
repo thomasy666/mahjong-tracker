@@ -77,7 +77,7 @@ const resources = {
       recordingAs: '记录者',
       unlock: '解锁',
       breakFrom: '开牌方向',
-      dirSelf: '自己',
+      dirSelf: '自家',
       dirRight: '下家',
       dirAcross: '对家',
       dirLeft: '上家',

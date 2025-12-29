@@ -167,11 +167,9 @@ export function DiceRoller() {
         <Cube rotX={rot2.x} rotY={rot2.y} />
         <span className="text-5xl font-bold ml-4">{rolling ? '...' : sum}</span>
       </div>
-      {activeWall !== null && (
-        <p className="text-center text-lg mb-2 text-cyan-600 font-semibold">
-          {t('breakFrom')}: {directions[activeWall]} ({breakPoint})
-        </p>
-      )}
+      <p className={`text-center text-lg mb-2 font-semibold ${activeWall !== null ? 'text-cyan-600' : 'invisible'}`}>
+        {t('breakFrom')}: {directions[activeWall ?? 0]} ({breakPoint})
+      </p>
       <div className="flex justify-center mb-4">
         <MahjongTable activeWall={activeWall} breakPoint={breakPoint} directions={directions} tableLabel={t('table')} />
       </div>
