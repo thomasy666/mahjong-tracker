@@ -25,3 +25,5 @@ static/avatars/*
 
 # Claude Code
 .claude/
+backend/mahjong.db
+backend/venv/
