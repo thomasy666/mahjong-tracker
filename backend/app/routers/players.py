@@ -56,6 +56,12 @@ def update_player(player_id: int, update: schemas.PlayerUpdate, db: Session = De
     return schemas.Player(id=player.id, name=player.name, color=player.color,
                           avatar_path=player.avatar_path, created_at=player.created_at, score=score)
 
+@router.get("/{player_id}/locked")
+def is_player_locked(player_id: int, db: Session = Depends(get_db)):
+    """Check if player has any round history (locked = can't delete without admin)"""
+    count = db.query(models.RoundScore).filter(models.RoundScore.player_id == player_id).count()
+    return {"locked": count > 0}
+
 @router.delete("/{player_id}")
 def delete_player(player_id: int, db: Session = Depends(get_db)):
     player = db.query(models.Player).filter(models.Player.id == player_id).first()

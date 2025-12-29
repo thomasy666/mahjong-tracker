@@ -29,6 +29,7 @@ export const playersApi = {
   create: (name: string, color: string) => api.post<Player>('/players', { name, color }).then(r => r.data),
   update: (id: number, data: Partial<Player>) => api.patch<Player>(`/players/${id}`, data).then(r => r.data),
   delete: (id: number) => api.delete(`/players/${id}`),
+  isLocked: (id: number) => api.get<{ locked: boolean }>(`/players/${id}/locked`).then(r => r.data.locked),
   uploadAvatar: (id: number, file: File) => {
     const formData = new FormData()
     formData.append('file', file)
