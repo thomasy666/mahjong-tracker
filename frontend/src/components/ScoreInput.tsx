@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { playersApi, roundsApi, Player } from '../api/client'
+import { playersApi, roundsApi } from '../api/client'
 
 export function ScoreInput() {
   const queryClient = useQueryClient()
@@ -42,7 +42,7 @@ export function ScoreInput() {
     <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow p-4">
       <h2 className="text-xl font-bold mb-4">Record Round</h2>
       <div className="space-y-3">
-        {players?.map((p: Player) => (
+        {players?.map((p) => (
           <div key={p.id} className="flex items-center gap-3">
             <span className="w-24 truncate">{p.name}</span>
             <input
