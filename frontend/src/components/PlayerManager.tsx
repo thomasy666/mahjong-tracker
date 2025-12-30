@@ -79,8 +79,7 @@ export function PlayerManager() {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow p-4">
-      <h2 className="text-xl font-bold mb-4">{t('players')}</h2>
+    <div>
       <div className="space-y-2 mb-4">
         {players?.map((p) => (
           <div key={p.id} className="flex items-center gap-2">
@@ -88,7 +87,7 @@ export function PlayerManager() {
               type="file"
               accept="image/*"
               className="hidden"
-              ref={el => fileInputRefs.current[p.id] = el}
+              ref={el => { fileInputRefs.current[p.id] = el }}
               onChange={e => handleFileChange(p.id, e)}
             />
             {p.avatar_path ? (

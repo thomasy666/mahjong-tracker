@@ -57,9 +57,7 @@ export function SessionManager() {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow p-4">
-      <h2 className="text-xl font-bold mb-4 text-center">📁 {t('sessions')}</h2>
-
+    <div>
       {/* New session input */}
       <div className="flex gap-2 mb-4">
         <input

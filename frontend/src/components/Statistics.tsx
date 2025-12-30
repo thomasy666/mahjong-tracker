@@ -13,9 +13,7 @@ export function Statistics() {
   if (!stats?.length) return null
 
   return (
-    <div className="bg-white rounded-lg shadow p-4">
-      <h2 className="text-xl font-bold mb-4">{t('statistics')}</h2>
-      <div className="overflow-x-auto">
+    <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b text-left">
@@ -42,7 +40,6 @@ export function Statistics() {
             ))}
           </tbody>
         </table>
-      </div>
     </div>
   )
 }

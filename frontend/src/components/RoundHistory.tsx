@@ -33,9 +33,8 @@ export function RoundHistory() {
   const playerIds = players?.map(p => p.id) || []
 
   return (
-    <div className="bg-white rounded-lg shadow p-4">
-      <div className="flex justify-between items-center mb-3">
-        <h2 className="text-xl font-bold">{t('roundHistory')}</h2>
+    <div>
+      <div className="flex justify-end items-center mb-3">
         {rounds?.length ? (
           <button
             onClick={() => setShowAdminModal(true)}
