@@ -80,7 +80,7 @@ export function SettingsContent({ onClose }: { onClose: () => void }) {
                 />
                 {codeError && <p className="text-red-500 text-sm mb-2">{codeError}</p>}
                 <div className="flex gap-2 justify-end">
-                  <button onClick={() => setShowChangeCodeModal(false)} className="px-4 py-2 bg-gray-200 rounded">
+                  <button onClick={() => { setShowChangeCodeModal(false); setCodeSuccess(false) }} className="px-4 py-2 bg-gray-200 rounded">
                     {t('cancel')}
                   </button>
                   <button
