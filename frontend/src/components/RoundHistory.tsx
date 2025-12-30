@@ -38,7 +38,7 @@ export function RoundHistory() {
         {rounds?.length ? (
           <button
             onClick={() => setShowAdminModal(true)}
-            className="px-2 py-1 bg-yellow-500 text-white rounded text-xs hover:bg-yellow-600"
+            className="px-2 py-1 bg-white border border-[#E5E5EA] text-gray-700 rounded-lg hover:bg-gray-50 text-xs"
           >
             {t('undoLast')}
           </button>

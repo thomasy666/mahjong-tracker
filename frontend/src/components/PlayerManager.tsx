@@ -158,7 +158,7 @@ export function PlayerManager() {
         <button
           onClick={() => addMutation.mutate()}
           disabled={!newName.trim()}
-          className="px-4 py-2 bg-green-600 text-white rounded disabled:opacity-50"
+          className="px-4 py-2 bg-[#1C1C1E] text-white rounded-lg hover:opacity-90 disabled:opacity-50"
         >
           {t('add')}
         </button>

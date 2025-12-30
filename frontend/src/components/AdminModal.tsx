@@ -39,7 +39,7 @@ export function AdminModal({ onVerified, onClose }: Props) {
           <button
             onClick={() => mutation.mutate()}
             disabled={!code}
-            className="px-4 py-2 bg-blue-600 text-white rounded disabled:opacity-50"
+            className="px-4 py-2 bg-[#1C1C1E] text-white rounded-lg hover:opacity-90 disabled:opacity-50"
           >
             {t('verify')}
           </button>

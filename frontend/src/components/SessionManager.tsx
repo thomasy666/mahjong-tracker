@@ -71,7 +71,7 @@ export function SessionManager() {
         <button
           onClick={handleCreate}
           disabled={!newName.trim() || createMutation.isPending}
-          className="px-4 py-2 bg-green-500 text-white rounded disabled:opacity-50 hover:bg-green-600"
+          className="px-4 py-2 bg-[#1C1C1E] text-white rounded-lg hover:opacity-90 disabled:opacity-50"
         >
           {t('newSession')}
         </button>
@@ -87,7 +87,7 @@ export function SessionManager() {
               <div
                 key={s.id}
                 className={`flex items-center justify-between p-2 rounded ${
-                  s.is_active ? 'bg-cyan-50 border border-cyan-300' : 'bg-gray-50 hover:bg-gray-100'
+                  s.is_active ? 'bg-gray-100 border border-gray-300' : 'bg-gray-50 hover:bg-gray-100'
                 }`}
               >
                 <div className="flex-1">
@@ -115,7 +115,7 @@ export function SessionManager() {
                     />
                   ) : (
                     <div
-                      className={`font-medium ${s.is_active ? 'cursor-pointer hover:text-cyan-700' : ''}`}
+                      className={`font-medium ${s.is_active ? 'cursor-pointer hover:text-gray-700' : ''}`}
                       onClick={() => {
                         if (s.is_active) {
                           setEditingId(s.id)
@@ -125,7 +125,7 @@ export function SessionManager() {
                       title={s.is_active ? t('clickToRename') : undefined}
                     >
                       {s.name}
-                      {s.is_active && <span className="ml-2 text-xs text-cyan-600">({t('currentSession')})</span>}
+                      {s.is_active && <span className="ml-2 text-xs text-gray-600">({t('currentSession')})</span>}
                     </div>
                   )}
                   <div className="text-xs text-gray-500">
@@ -137,7 +137,7 @@ export function SessionManager() {
                     <button
                       onClick={() => loadMutation.mutate(s.id)}
                       disabled={loadMutation.isPending}
-                      className="px-3 py-1 bg-cyan-500 text-white text-sm rounded hover:bg-cyan-600"
+                      className="px-3 py-1 bg-[#1C1C1E] text-white text-sm rounded-lg hover:opacity-90"
                     >
                       {t('load')}
                     </button>
