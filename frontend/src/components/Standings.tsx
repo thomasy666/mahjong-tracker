@@ -15,7 +15,7 @@ export function Standings() {
   return (
     <div className="bg-white rounded-lg shadow p-4">
       <h2 className="text-xl font-bold mb-4">{t('standings')}</h2>
-      <div className="space-y-2">
+      <div className="grid grid-cols-2 gap-2 md:grid-cols-1 md:gap-3">
         {players?.map((player, i) => (
           <div
             key={player.id}
@@ -40,7 +40,7 @@ export function Standings() {
             <span className="flex-1 font-medium">{player.name}</span>
             <span
               className="text-xl font-bold"
-              style={{ color: player.score >= 0 ? '#22c55e' : '#ef4444' }}
+              style={{ color: player.score >= 0 ? '#34C759' : '#FF3B30' }}
             >
               {player.score >= 0 ? '+' : ''}{player.score}
             </span>
