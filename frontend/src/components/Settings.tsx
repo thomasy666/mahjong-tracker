@@ -38,22 +38,19 @@ export function SettingsPopup({ onClose }: { onClose: () => void }) {
 
   return (
     <>
-      <div className="absolute right-0 top-10 bg-white rounded-lg shadow-lg p-3 w-48 z-40">
-        <div className="text-sm font-bold mb-2 text-gray-600">{t('settings')}</div>
-        <div className="space-y-2">
-          <button
-            onClick={() => setShowResetModal(true)}
-            className="w-full px-3 py-2 text-left text-sm bg-red-50 text-red-700 rounded hover:bg-red-100"
-          >
-            🔄 {t('resetGame')}
-          </button>
-          <button
-            onClick={() => setShowChangeCodeModal(true)}
-            className="w-full px-3 py-2 text-left text-sm bg-gray-50 text-gray-700 rounded hover:bg-gray-100"
-          >
-            🔑 {t('changeAdminCode')}
-          </button>
-        </div>
+      <div className="space-y-2">
+        <button
+          onClick={() => setShowResetModal(true)}
+          className="w-full px-3 py-2 text-left text-sm bg-red-50 text-red-700 rounded hover:bg-red-100"
+        >
+          🔄 {t('resetGame')}
+        </button>
+        <button
+          onClick={() => setShowChangeCodeModal(true)}
+          className="w-full px-3 py-2 text-left text-sm bg-gray-50 text-gray-700 rounded hover:bg-gray-100"
+        >
+          🔑 {t('changeAdminCode')}
+        </button>
       </div>
 
       {showResetModal && (
