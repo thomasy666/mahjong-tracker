@@ -1,19 +1,22 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import './i18n'
 import { Standings } from './components/Standings'
 import { ScoreInput } from './components/ScoreInput'
+import { DiceRoller } from './components/DiceRoller'
 import { RoundHistory } from './components/RoundHistory'
 import { Statistics } from './components/Statistics'
 import { PlayerManager } from './components/PlayerManager'
-import { DiceRoller } from './components/DiceRoller'
-import { SettingsPopup } from './components/Settings'
 import { SessionManager } from './components/SessionManager'
+import { SettingsPopup } from './components/Settings'
+import { Drawer } from './components/Drawer'
+import { IconButton } from './components/IconButton'
+
+type DrawerType = 'stats' | 'history' | 'players' | 'settings' | null
 
 function App() {
   const { t, i18n } = useTranslation()
-  const [showSettings, setShowSettings] = useState(false)
-  const settingsRef = useRef<HTMLDivElement>(null)
+  const [activeDrawer, setActiveDrawer] = useState<DrawerType>(null)
 
   const toggleLang = () => {
     const newLang = i18n.language === 'en' ? 'zh' : 'en'
@@ -25,58 +28,51 @@ function App() {
     document.title = t('title')
   }, [i18n.language, t])
 
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (settingsRef.current && !settingsRef.current.contains(e.target as Node)) {
-        setShowSettings(false)
-      }
-    }
-    if (showSettings) document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [showSettings])
+  const openDrawer = (drawer: DrawerType) => {
+    setActiveDrawer(activeDrawer === drawer ? null : drawer)
+  }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-3xl font-bold">{t('title')}</h1>
+    <div className="min-h-screen bg-[#F2F2F7] p-4">
+      <div className="max-w-xl mx-auto">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-4">
+          <h1 className="text-2xl font-bold">{t('title')}</h1>
           <div className="flex items-center gap-2">
-            <button onClick={toggleLang} className="px-3 py-1 bg-white rounded shadow hover:bg-gray-50">
+            <button onClick={toggleLang} className="px-3 py-1 bg-white rounded-xl shadow-sm hover:bg-gray-50 text-sm">
               {i18n.language === 'en' ? '中文' : 'EN'}
             </button>
-            <div className="relative" ref={settingsRef}>
-              <button
-                onClick={() => setShowSettings(!showSettings)}
-                className="w-8 h-8 bg-white rounded shadow hover:bg-gray-50 flex items-center justify-center"
-              >
-                ⚙️
-              </button>
-              {showSettings && <SettingsPopup onClose={() => setShowSettings(false)} />}
-            </div>
+            <IconButton icon="📊" label={t('statistics')} isActive={activeDrawer === 'stats'} onClick={() => openDrawer('stats')} />
+            <IconButton icon="📜" label={t('history')} isActive={activeDrawer === 'history'} onClick={() => openDrawer('history')} />
+            <IconButton icon="👥" label={t('players')} isActive={activeDrawer === 'players'} onClick={() => openDrawer('players')} />
+            <IconButton icon="⚙️" label={t('settings')} isActive={activeDrawer === 'settings'} onClick={() => openDrawer('settings')} />
           </div>
         </div>
 
-        <div className="grid gap-4 lg:grid-cols-3">
-          {/* Left Column */}
-          <div className="space-y-4">
-            <Standings />
-            <ScoreInput />
-            <PlayerManager />
-          </div>
-
-          {/* Middle Column */}
-          <div className="space-y-4">
-            <SessionManager />
-            <DiceRoller />
-            <Statistics />
-          </div>
-
-          {/* Right Column */}
-          <div>
-            <RoundHistory />
-          </div>
+        {/* Main View */}
+        <div className="space-y-4">
+          <Standings />
+          <ScoreInput />
+          <DiceRoller />
         </div>
       </div>
+
+      {/* Drawers */}
+      <Drawer isOpen={activeDrawer === 'stats'} onClose={() => setActiveDrawer(null)} title={t('statistics')}>
+        <Statistics />
+      </Drawer>
+      <Drawer isOpen={activeDrawer === 'history'} onClose={() => setActiveDrawer(null)} title={t('history')}>
+        <RoundHistory />
+      </Drawer>
+      <Drawer isOpen={activeDrawer === 'players'} onClose={() => setActiveDrawer(null)} title={t('players')}>
+        <PlayerManager />
+      </Drawer>
+      <Drawer isOpen={activeDrawer === 'settings'} onClose={() => setActiveDrawer(null)} title={t('settings')}>
+        <div className="space-y-4">
+          <SessionManager />
+          <SettingsPopup onClose={() => setActiveDrawer(null)} />
+        </div>
+      </Drawer>
     </div>
   )
 }
