@@ -11,9 +11,19 @@ os.makedirs(AVATARS_DIR, exist_ok=True)
 
 router = APIRouter(prefix="/api/players", tags=["players"])
 
+def get_active_session_id(db: Session) -> int | None:
+    session = db.query(models.Session).filter(models.Session.is_active == True).first()
+    return session.id if session else None
+
 @router.get("", response_model=list[schemas.Player])
 def list_players(db: Session = Depends(get_db)):
-    players = db.query(models.Player).all()
+    session_id = get_active_session_id(db)
+    query = db.query(models.Player)
+    if session_id:
+        query = query.filter(models.Player.session_id == session_id)
+    else:
+        query = query.filter(models.Player.session_id == None)
+    players = query.all()
     result = []
     for p in players:
         score = db.query(func.coalesce(func.sum(models.RoundScore.delta), 0)).filter(
@@ -27,10 +37,14 @@ def list_players(db: Session = Depends(get_db)):
 
 @router.post("", response_model=schemas.Player)
 def create_player(player: schemas.PlayerCreate, db: Session = Depends(get_db)):
-    existing = db.query(models.Player).filter(models.Player.name == player.name).first()
+    session_id = get_active_session_id(db)
+    existing = db.query(models.Player).filter(
+        models.Player.name == player.name,
+        models.Player.session_id == session_id
+    ).first()
     if existing:
         raise HTTPException(400, "Player already exists")
-    db_player = models.Player(name=player.name, color=player.color)
+    db_player = models.Player(name=player.name, color=player.color, session_id=session_id)
     db.add(db_player)
     db.commit()
     db.refresh(db_player)

@@ -54,3 +54,20 @@ export const adminApi = {
   verify: (code: string) => api.post('/admin/verify', { code }),
   changeCode: (old_code: string, new_code: string) => api.patch('/admin/code', { old_code, new_code }),
 }
+
+export interface Session {
+  id: number
+  name: string
+  created_at: string
+  is_active: boolean
+  round_count: number
+}
+
+export const sessionsApi = {
+  list: () => api.get<Session[]>('/sessions').then(r => r.data),
+  active: () => api.get<Session | null>('/sessions/active').then(r => r.data),
+  create: (name: string) => api.post<Session>('/sessions', { name }).then(r => r.data),
+  load: (id: number) => api.post<Session>(`/sessions/${id}/load`).then(r => r.data),
+  rename: (id: number, name: string) => api.patch<Session>(`/sessions/${id}`, { name }).then(r => r.data),
+  delete: (id: number) => api.delete(`/sessions/${id}`),
+}

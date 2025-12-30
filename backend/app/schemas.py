@@ -52,3 +52,18 @@ class AdminVerify(BaseModel):
 class AdminCodeChange(BaseModel):
     old_code: str
     new_code: str
+
+class SessionCreate(BaseModel):
+    name: str
+
+class SessionUpdate(BaseModel):
+    name: str
+
+class Session(BaseModel):
+    id: int
+    name: str
+    created_at: datetime
+    is_active: bool
+    round_count: int = 0
+    class Config:
+        from_attributes = True

@@ -5,9 +5,19 @@ from ..database import get_db
 
 router = APIRouter(prefix="/api/rounds", tags=["rounds"])
 
+def get_active_session_id(db: Session) -> int | None:
+    session = db.query(models.Session).filter(models.Session.is_active == True).first()
+    return session.id if session else None
+
 @router.get("", response_model=list[schemas.Round])
 def list_rounds(db: Session = Depends(get_db)):
-    rounds = db.query(models.Round).order_by(models.Round.id.desc()).all()
+    session_id = get_active_session_id(db)
+    query = db.query(models.Round).order_by(models.Round.id.desc())
+    if session_id:
+        query = query.filter(models.Round.session_id == session_id)
+    else:
+        query = query.filter(models.Round.session_id == None)
+    rounds = query.all()
     result = []
     for r in rounds:
         scores = [schemas.RoundScore(player_id=s.player_id, player_name=s.player.name, delta=s.delta) for s in r.scores]
@@ -21,7 +31,8 @@ def create_round(round_data: schemas.RoundCreate, db: Session = Depends(get_db))
     if total != 0:
         raise HTTPException(400, f"Scores must sum to zero, got {total}")
 
-    db_round = models.Round(recorder_id=round_data.recorder_id, recorder_ip=round_data.recorder_ip)
+    session_id = get_active_session_id(db)
+    db_round = models.Round(session_id=session_id, recorder_id=round_data.recorder_id, recorder_ip=round_data.recorder_ip)
     db.add(db_round)
     db.flush()
 

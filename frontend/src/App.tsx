@@ -8,6 +8,7 @@ import { Statistics } from './components/Statistics'
 import { PlayerManager } from './components/PlayerManager'
 import { DiceRoller } from './components/DiceRoller'
 import { SettingsPopup } from './components/Settings'
+import { SessionManager } from './components/SessionManager'
 
 function App() {
   const { t, i18n } = useTranslation()
@@ -65,6 +66,7 @@ function App() {
 
           {/* Middle Column */}
           <div className="space-y-4">
+            <SessionManager />
             <DiceRoller />
             <Statistics />
           </div>

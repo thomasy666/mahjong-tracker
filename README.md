@@ -4,6 +4,7 @@ A score tracking app for Mahjong games, built with React + FastAPI.
 
 ## Features
 
+- Session management (save/load multiple game sessions)
 - Round-by-round score tracking with zero-sum validation
 - Player management (add, remove, rename, custom colors, avatars)
 - 3D dice roller with wall-start indicator
@@ -51,6 +52,7 @@ mahjong_tracker/
 │   │       ├── players.py
 │   │       ├── rounds.py
 │   │       ├── game.py
+│   │       ├── sessions.py
 │   │       └── admin.py
 │   └── requirements.txt
 ├── frontend/
@@ -65,6 +67,7 @@ mahjong_tracker/
 │   │       ├── Statistics.tsx
 │   │       ├── PlayerManager.tsx
 │   │       ├── DiceRoller.tsx
+│   │       ├── SessionManager.tsx
 │   │       ├── Settings.tsx
 │   │       └── AdminModal.tsx
 │   └── package.json
@@ -73,6 +76,16 @@ mahjong_tracker/
 ```
 
 ## Changelog
+
+### v2.1.0 (Dec 2025) - Session Management
+
+- Save and load multiple game sessions
+- Each session has isolated players, rounds, and statistics
+- Create new sessions (auto-activates, resets players)
+- Load existing sessions with one click
+- Rename active session inline (click to edit)
+- Delete sessions with confirmation
+- Shows 5 most recent sessions with "show more" toggle
 
 ### v2.0.0 (Dec 2025) - React Migration
 
