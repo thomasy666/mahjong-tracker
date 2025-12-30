@@ -26,7 +26,7 @@ function App() {
 
   useEffect(() => {
     document.title = t('title')
-  }, [i18n.language, t])
+  }, [i18n.language])
 
   const openDrawer = (drawer: DrawerType) => {
     setActiveDrawer(activeDrawer === drawer ? null : drawer)
@@ -39,7 +39,7 @@ function App() {
         <div className="flex items-center justify-between mb-4">
           <h1 className="text-2xl font-bold">{t('title')}</h1>
           <div className="flex items-center gap-2">
-            <button onClick={toggleLang} className="px-3 py-1 bg-white rounded-xl shadow-sm hover:bg-gray-50 text-sm">
+            <button onClick={toggleLang} className="px-3 py-1 bg-white rounded-xl shadow-sm hover:bg-gray-50 text-sm" aria-label="Toggle language">
               {i18n.language === 'en' ? '中文' : 'EN'}
             </button>
             <IconButton icon="📊" label={t('statistics')} isActive={activeDrawer === 'stats'} onClick={() => openDrawer('stats')} />
