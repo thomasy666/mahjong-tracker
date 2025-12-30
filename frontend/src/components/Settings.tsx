@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { gameApi, adminApi } from '../api/client'
 import { AdminModal } from './AdminModal'
 
-export function SettingsPopup({ onClose }: { onClose: () => void }) {
+export function SettingsContent({ onClose }: { onClose: () => void }) {
   const { t } = useTranslation()
   const queryClient = useQueryClient()
   const [showResetModal, setShowResetModal] = useState(false)
@@ -31,7 +31,6 @@ export function SettingsPopup({ onClose }: { onClose: () => void }) {
       setCodeSuccess(true)
       setOldCode('')
       setNewCode('')
-      setTimeout(() => { setShowChangeCodeModal(false); setCodeSuccess(false); onClose() }, 1500)
     },
     onError: () => setCodeError(t('invalidCode')),
   })

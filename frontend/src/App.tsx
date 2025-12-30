@@ -8,7 +8,7 @@ import { RoundHistory } from './components/RoundHistory'
 import { Statistics } from './components/Statistics'
 import { PlayerManager } from './components/PlayerManager'
 import { SessionManager } from './components/SessionManager'
-import { SettingsPopup } from './components/Settings'
+import { SettingsContent } from './components/Settings'
 import { Drawer } from './components/Drawer'
 import { IconButton } from './components/IconButton'
 
@@ -70,7 +70,7 @@ function App() {
       <Drawer isOpen={activeDrawer === 'settings'} onClose={() => setActiveDrawer(null)} title={t('settings')}>
         <div className="space-y-4">
           <SessionManager />
-          <SettingsPopup onClose={() => setActiveDrawer(null)} />
+          <SettingsContent onClose={() => setActiveDrawer(null)} />
         </div>
       </Drawer>
     </div>
