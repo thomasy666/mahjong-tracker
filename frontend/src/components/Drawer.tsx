@@ -34,24 +34,29 @@ export function Drawer({ isOpen, onClose, title, children }: DrawerProps) {
       {/* Mobile: Bottom sheet */}
       <div
         ref={drawerRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="drawer-title-mobile"
         className="absolute bg-white md:hidden bottom-0 left-0 right-0 max-h-[70vh] rounded-t-2xl flex flex-col"
       >
         <div className="flex items-center justify-between p-4 border-b">
           <div className="w-12 h-1 bg-gray-300 rounded-full absolute top-2 left-1/2 -translate-x-1/2" />
-          <h2 className="text-lg font-bold">{title}</h2>
-          <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full">✕</button>
+          <h2 id="drawer-title-mobile" className="text-lg font-bold">{title}</h2>
+          <button onClick={onClose} aria-label="Close" className="p-2 hover:bg-gray-100 rounded-full">✕</button>
         </div>
         <div className="flex-1 overflow-y-auto p-4">{children}</div>
       </div>
 
       {/* Desktop: Side drawer */}
       <div
-        ref={drawerRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="drawer-title-desktop"
         className="absolute bg-white hidden md:flex right-0 top-0 bottom-0 w-[400px] flex-col shadow-xl"
       >
         <div className="flex items-center justify-between p-4 border-b">
-          <h2 className="text-lg font-bold">{title}</h2>
-          <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full">✕</button>
+          <h2 id="drawer-title-desktop" className="text-lg font-bold">{title}</h2>
+          <button onClick={onClose} aria-label="Close" className="p-2 hover:bg-gray-100 rounded-full">✕</button>
         </div>
         <div className="flex-1 overflow-y-auto p-4">{children}</div>
       </div>
