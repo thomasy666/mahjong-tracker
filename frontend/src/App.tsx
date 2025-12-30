@@ -34,7 +34,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-[#F2F2F7] p-4">
-      <div className="max-w-xl mx-auto">
+      <div className="max-w-xl md:max-w-5xl lg:max-w-6xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-4">
           <h1 className="text-2xl font-bold">{t('title')}</h1>
@@ -50,10 +50,12 @@ function App() {
         </div>
 
         {/* Main View */}
-        <div className="space-y-4">
-          <Standings />
+        <div className="space-y-4 md:grid md:grid-cols-2 md:gap-4 md:space-y-0">
+          <div className="space-y-4">
+            <Standings />
+            <DiceRoller />
+          </div>
           <ScoreInput />
-          <DiceRoller />
         </div>
       </div>
 

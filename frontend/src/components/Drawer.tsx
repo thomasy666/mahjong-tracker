@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 
 interface DrawerProps {
   isOpen: boolean
@@ -8,8 +8,6 @@ interface DrawerProps {
 }
 
 export function Drawer({ isOpen, onClose, title, children }: DrawerProps) {
-  const drawerRef = useRef<HTMLDivElement>(null)
-
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose()
@@ -24,20 +22,17 @@ export function Drawer({ isOpen, onClose, title, children }: DrawerProps) {
     return () => { document.body.style.overflow = '' }
   }, [isOpen])
 
-  if (!isOpen) return null
-
   return (
-    <div className="fixed inset-0 z-50">
+    <div className={`fixed inset-0 z-50 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
       {/* Backdrop */}
       <div className="absolute inset-0 bg-black/50" onClick={onClose} />
 
       {/* Mobile: Bottom sheet */}
       <div
-        ref={drawerRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby="drawer-title-mobile"
-        className="absolute bg-white md:hidden bottom-0 left-0 right-0 max-h-[70vh] rounded-t-2xl flex flex-col"
+        className={`absolute bg-white md:hidden bottom-0 left-0 right-0 max-h-[70vh] rounded-t-2xl flex flex-col transition-transform duration-300 ${isOpen ? 'translate-y-0' : 'translate-y-full'}`}
       >
         <div className="flex items-center justify-between p-4 border-b">
           <div className="w-12 h-1 bg-gray-300 rounded-full absolute top-2 left-1/2 -translate-x-1/2" />
@@ -52,7 +47,7 @@ export function Drawer({ isOpen, onClose, title, children }: DrawerProps) {
         role="dialog"
         aria-modal="true"
         aria-labelledby="drawer-title-desktop"
-        className="absolute bg-white hidden md:flex right-0 top-0 bottom-0 w-[400px] flex-col shadow-xl"
+        className={`absolute bg-white hidden md:flex right-0 top-0 bottom-0 w-[400px] flex-col shadow-xl transition-transform duration-300 ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
       >
         <div className="flex items-center justify-between p-4 border-b">
           <h2 id="drawer-title-desktop" className="text-lg font-bold">{title}</h2>

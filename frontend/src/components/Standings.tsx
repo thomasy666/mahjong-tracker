@@ -15,7 +15,7 @@ export function Standings() {
   return (
     <div className="bg-white rounded-lg shadow p-4">
       <h2 className="text-xl font-bold mb-4">{t('standings')}</h2>
-      <div className="grid grid-cols-2 gap-2 md:grid-cols-1 md:gap-3">
+      <div className="space-y-2">
         {players?.map((player, i) => (
           <div
             key={player.id}
