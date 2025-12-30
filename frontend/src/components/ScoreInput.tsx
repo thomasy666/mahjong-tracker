@@ -121,13 +121,13 @@ export function ScoreInput() {
           {t('sum')}: {total}
         </span>
         <div className="flex gap-2">
-          <button type="button" onClick={autoBalance} disabled={!recorderId} className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50">
+          <button type="button" onClick={autoBalance} disabled={!recorderId} className="px-4 py-2 bg-white border border-[#E5E5EA] rounded-lg hover:bg-gray-50 disabled:opacity-50">
             {t('balance')}
           </button>
           <button
             type="submit"
             disabled={total !== 0 || mutation.isPending || !recorderId}
-            className="px-4 py-2 bg-blue-600 text-white rounded disabled:opacity-50"
+            className="px-4 py-2 bg-[#1C1C1E] text-white rounded-lg hover:opacity-90 disabled:opacity-50"
           >
             {t('submit')}
           </button>

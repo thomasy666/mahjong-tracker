@@ -28,7 +28,7 @@ function Pip({ row, col, red, big }: { row: number; col: number; red?: boolean; 
 }
 
 function DieFace({ value }: { value: number }) {
-  const pips: JSX.Element[] = []
+  const pips: React.ReactElement[] = []
   if (value === 1) pips.push(<Pip key="1" row={2} col={2} red big />)
   if (value === 2) { pips.push(<Pip key="1" row={1} col={3} />); pips.push(<Pip key="2" row={3} col={1} />) }
   if (value === 3) { pips.push(<Pip key="1" row={1} col={3} />); pips.push(<Pip key="2" row={2} col={2} />); pips.push(<Pip key="3" row={3} col={1} />) }
@@ -177,7 +177,7 @@ export function DiceRoller() {
         <button
           onClick={roll}
           disabled={rolling}
-          className="px-6 py-3 bg-cyan-500 text-white rounded-full text-lg font-bold disabled:opacity-50 hover:bg-cyan-600 transition"
+          className="px-6 py-3 bg-[#1C1C1E] text-white rounded-lg text-lg font-semibold disabled:opacity-50 hover:opacity-90 transition"
         >
           🎲 {t('roll')}
         </button>
